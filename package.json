@@ -1,0 +1,25 @@
+{
+    "name": "auth-memory-extension",
+    "version": "1.0.0",
+    "description": "Chrome extension to remember which Google account was used for specific services.",
+    "scripts": {
+        "build": "node scripts/build.js",
+        "release": "npm version patch && npm run build && git push --follow-tags"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://https://github.com/AshesOfPhoenix/auth-memory.git"
+    },
+    "keywords": [
+        "chrome-extension",
+        "google-auth",
+        "productivity"
+    ],
+    "author": "Kristjan Križman",
+    "license": "MIT",
+    "type": "commonjs",
+    "devDependencies": {
+        "archiver": "^7.0.1",
+        "fs-extra": "^11.3.3"
+    }
+}

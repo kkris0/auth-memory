@@ -1,0 +1,40 @@
+/* The container for the badge we inject */
+.auth-memory-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #e8f0fe; /* Google Light Blue */
+    color: #1967d2;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 16px;
+    margin-left: 10px;
+    border: 1px solid #d2e3fc;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* The logo image inside the badge */
+.auth-memory-logo {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+}
+
+/* Highlight the entire row */
+.auth-memory-highlight {
+    background-color: #f4f8ff !important; /* Very light blue background */
+    border-left: 4px solid #1a73e8 !important; /* Google Blue accent */
+    transition: all 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
