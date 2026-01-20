@@ -142,3 +142,6 @@ vite.config.ts.timestamp-*
 
 # AI
 .claude/
+
+# Misc
+preview.html

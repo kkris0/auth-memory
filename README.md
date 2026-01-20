@@ -1,4 +1,19 @@
+
+
+
+<div align="center">
+
 # AuthMemory: Which Account?
+
+**A Chrome/Firefox extension that remembers which Google Account you used for specific services and highlights it during login.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+<img src="demo-image.png" alt="AuthMemory Demo" width="500">
+
+[GitHub](https://github.com/ashesofphoenix/auth-memory-extension/) • [Report Bug](https://github.com/ashesofphoenix/auth-memory-extension/issues)
+
+</div>
 
 A Chrome/Firefox extension that remembers which Google Account you used for specific services and highlights it during login.
 
