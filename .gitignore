@@ -145,3 +145,6 @@ vite.config.ts.timestamp-*
 
 # Misc
 preview.html
+
+# Video
+video/

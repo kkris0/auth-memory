@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-<img src="demo-image.png" alt="AuthMemory Demo" width="500">
+<img src="demo-image-vertical.png" alt="AuthMemory Demo" width="500">
 
 [GitHub](https://github.com/AshesOfPhoenix/auth-memory) • [Report Bug](https://github.com/ashesofphoenix/auth-memory/issues)
 
