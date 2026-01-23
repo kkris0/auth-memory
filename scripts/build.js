@@ -6,7 +6,6 @@ const DIST_DIR = path.join(__dirname, '../dist');
 const SRC_DIR = path.join(__dirname, '../src');
 const ICONS_DIR = path.join(__dirname, '../icons');
 
-// Ensure dist directory exists
 fs.ensureDirSync(DIST_DIR);
 
 async function createPackage(browser) {
@@ -27,7 +26,7 @@ async function createPackage(browser) {
         // Firefox requires specific ID for updates
         manifest.browser_specific_settings = {
             gecko: {
-                id: 'authmemory@yourdomain.com', // CHANGE THIS
+                id: 'authmemory@kristjankrizman.com',
                 strict_min_version: '109.0',
             },
         };
@@ -35,10 +34,8 @@ async function createPackage(browser) {
 
     archive.pipe(output);
 
-    // Append modified manifest
     archive.append(JSON.stringify(manifest, null, 2), { name: 'manifest.json' });
 
-    // Append source files
     archive.directory(SRC_DIR, 'src');
     archive.directory(ICONS_DIR, 'icons');
 

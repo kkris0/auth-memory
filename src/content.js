@@ -49,7 +49,6 @@ const SELECTORS = {
 async function highlightLastUsed(serviceDomain) {
     if (!serviceDomain) return;
 
-    // get the email specifically for THIS domain
     const storage = await chrome.storage.sync.get(serviceDomain);
     const lastUsedEmail = storage[serviceDomain];
 
