@@ -49,6 +49,9 @@ const SELECTORS = {
 async function highlightLastUsed(serviceDomain) {
     if (!serviceDomain) return;
 
+    // Clean up any previous highlights before applying new ones
+    cleanupHighlights();
+
     const storage = await chrome.storage.sync.get(serviceDomain);
     const lastUsedEmail = storage[serviceDomain];
 
@@ -95,6 +98,17 @@ function applyVisuals(rowElement, serviceDomain) {
 
     const textContainer = rowElement.querySelector('div:nth-child(2)') || rowElement;
     textContainer.appendChild(badge);
+}
+
+function cleanupHighlights() {
+    // Remove all badges
+    document.querySelectorAll('.auth-memory-badge').forEach(badge => badge.remove());
+
+    // Remove all highlight classes and reset processed flags
+    document.querySelectorAll('.auth-memory-highlight').forEach(row => {
+        row.classList.remove('auth-memory-highlight');
+        delete row.dataset.authMemoryProcessed;
+    });
 }
 
 function setupClickListener(serviceDomain) {
