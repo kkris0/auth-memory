@@ -1,6 +1,6 @@
 {
     "name": "auth-memory-extension",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Chrome extension to remember which Google account was used for specific services.",
     "scripts": {
         "build": "node scripts/build.js",

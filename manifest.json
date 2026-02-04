@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AuthMemory: Which Account?",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Remembers which Google Account you used for specific services and highlights it.",
     "permissions": ["storage"],
     "host_permissions": ["https://accounts.google.com/*"],
