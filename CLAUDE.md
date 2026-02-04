@@ -91,8 +91,71 @@ Since there are no automated tests, manual testing workflow:
 
 ## Release Process
 
-The `npm run release` command:
+### IMPORTANT: Manual Steps Required
 
-1. Runs `npm version patch` (bumps version in package.json)
-2. Runs `npm run build` (creates new .zip files)
-3. Runs `git push --follow-tags` (pushes commit and tag)
+**CRITICAL:** `npm version patch` only updates `package.json` (and `package-lock.json`), but **NOT** `manifest.json`. You MUST manually update `manifest.json` to match, or the built packages will have incorrect version numbers.
+
+### Step-by-Step Release Instructions
+
+1. **Ensure clean working directory**
+   ```bash
+   git status  # Must show no uncommitted changes
+   ```
+   If there are uncommitted changes, commit them first before creating a release.
+
+2. **Create release commit and initial push**
+   ```bash
+   npm run release
+   ```
+   This will:
+   - Run `npm version patch` (bumps version in `package.json` only)
+   - Run `npm run build` (creates .zip files, but with OLD version from manifest.json)
+   - Run `git push --follow-tags` (pushes commit and tag)
+
+3. **Update manifest.json to match package.json version**
+   - Edit `manifest.json` and change the `"version"` field to match the new version in `package.json`
+   - Example: If package.json shows `"version": "1.0.5"`, update manifest.json to `"version": "1.0.5"`
+
+4. **Rebuild with correct version**
+   ```bash
+   npm run build
+   ```
+   This creates properly versioned .zip files (e.g., `auth-memory-chrome-v1.0.5.zip`)
+
+5. **Amend the version commit to include manifest.json**
+   ```bash
+   git add manifest.json
+   git commit --amend --no-edit
+   ```
+
+6. **Update the git tag to point to the amended commit**
+   ```bash
+   git tag -d v1.0.X  # Replace X with actual version
+   git tag v1.0.X     # Recreate tag on amended commit
+   ```
+
+7. **Force push the corrected commit and tag**
+   ```bash
+   git push --force-with-lease
+   git push --tags --force
+   ```
+
+### Quick Reference
+
+```bash
+# Full release sequence (after changes are committed):
+npm run release
+# Edit manifest.json to match package.json version
+npm run build
+git add manifest.json
+git commit --amend --no-edit
+git tag -d v1.0.X && git tag v1.0.X
+git push --force-with-lease && git push --tags --force
+```
+
+### Why This Is Necessary
+
+- `npm version` is designed for Node.js packages and only updates npm-related files
+- Browser extensions require version numbers in `manifest.json` for the extension stores
+- The build script reads version from `manifest.json` to name the .zip files
+- Without updating manifest.json, the packages will have mismatched version numbers
