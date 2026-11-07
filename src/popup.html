@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AuthMemory</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <header class="header">
+        <div class="wordmark">
+            <img class="logo" src="../icons/icon48.png" alt="" width="20" height="20">
+            <h1>AuthMemory</h1>
+        </div>
+        <span class="count" id="count" aria-live="polite"></span>
+    </header>
+
+    <div class="search-wrap">
+        <input
+            id="search"
+            class="search"
+            type="search"
+            placeholder="Find a site or email"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Search sites and emails">
+    </div>
+
+    <main class="list" id="list">
+        <section class="pinned" id="pinned" hidden></section>
+
+        <h2 class="section-title" id="historyTitle" hidden>All sites</h2>
+        <section class="history" id="history"></section>
+
+        <div class="empty" id="empty" hidden>
+            <div class="empty-title" id="emptyTitle"></div>
+            <div class="empty-sub" id="emptySub"></div>
+        </div>
+    </main>
+
+    <script src="popup.js"></script>
+</body>
+</html>
