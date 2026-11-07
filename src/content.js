@@ -36,6 +36,24 @@ function getServiceDomain() {
     return null;
 }
 
+// Collapse a login hostname to the site's display domain: signin.memelord.com -> memelord.com.
+// Keeps distinctive hosts (chrome.google.com) and non-domain values (IPs, "service" tokens).
+function displayDomain(hostname) {
+    if (!hostname) return '';
+    const h = hostname.toLowerCase();
+    if (h === 'localhost' || /^\d{1,3}(\.\d{1,3}){3}$/.test(h)) return h;
+
+    const parts = h.split('.');
+    if (parts.length >= 3) {
+        const STRIP = new Set([
+            'www', 'signin', 'login', 'auth', 'accounts', 'account',
+            'sso', 'id', 'oauth', 'app', 'my', 'dashboard', 'admin', 'go', 'continue',
+        ]);
+        if (STRIP.has(parts[0])) return parts.slice(1).join('.');
+    }
+    return h;
+}
+
 function getFaviconUrl(domain) {
     if (!domain.includes('.')) return 'https://www.google.com/favicon.ico';
     return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
@@ -46,21 +64,41 @@ const SELECTORS = {
     emailText: 'div[data-email], div:not(:empty)',
 };
 
+// Read the saved records for a site. Handles the legacy string value ("domain" -> "email").
+async function getRecords(key) {
+    const storage = await chrome.storage.sync.get(key);
+    const value = storage[key];
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string' && value) return [{ email: value, ts: 0, host: key }];
+    return [];
+}
+
+// Save a login as a record, de-duplicating by email and keeping only the latest use.
+async function saveRecord(key, email, host) {
+    const records = await getRecords(key);
+    const next = records.filter(r => r.email !== email);
+    next.push({ email, ts: Date.now(), host: host || key });
+    await chrome.storage.sync.set({ [key]: next });
+    console.log(`[AuthMemory] Saved: ${email} -> ${key}`);
+    return next;
+}
+
 async function highlightLastUsed(serviceDomain) {
     if (!serviceDomain) return;
 
     // Clean up any previous highlights before applying new ones
     cleanupHighlights();
 
-    const storage = await chrome.storage.sync.get(serviceDomain);
-    const lastUsedEmail = storage[serviceDomain];
+    const key = displayDomain(serviceDomain);
+    const records = await getRecords(key);
 
-    if (!lastUsedEmail) {
-        console.log(`[AuthMemory] No saved account found for: ${serviceDomain}`);
+    if (!records.length) {
+        console.log(`[AuthMemory] No saved account found for: ${key}`);
         return;
     }
 
-    console.log(`[AuthMemory] Found saved account for ${serviceDomain}: ${lastUsedEmail}`);
+    const lastUsedEmail = records.reduce((a, b) => (b.ts > a.ts ? b : a)).email;
+    console.log(`[AuthMemory] Found saved account for ${key}: ${lastUsedEmail}`);
 
     const accountRows = document.querySelectorAll(SELECTORS.accountRow);
 
@@ -72,7 +110,7 @@ async function highlightLastUsed(serviceDomain) {
             (emailDiv.dataset.email && emailDiv.dataset.email === lastUsedEmail) ||
             textContent.includes(lastUsedEmail)
         ) {
-            applyVisuals(row, serviceDomain);
+            applyVisuals(row, key);
         }
     });
 }
@@ -89,6 +127,7 @@ function applyVisuals(rowElement, serviceDomain) {
     const logo = document.createElement('img');
     logo.src = getFaviconUrl(serviceDomain);
     logo.className = 'auth-memory-logo';
+    logo.alt = '';
 
     const text = document.createElement('span');
     text.innerText = `Last used for ${serviceDomain}`;
@@ -112,6 +151,8 @@ function cleanupHighlights() {
 }
 
 function setupClickListener(serviceDomain) {
+    const key = displayDomain(serviceDomain);
+
     document.body.addEventListener('click', e => {
         const row = e.target.closest(SELECTORS.accountRow);
         if (!row) return;
@@ -127,9 +168,7 @@ function setupClickListener(serviceDomain) {
         }
 
         if (email && serviceDomain) {
-            chrome.storage.sync.set({ [serviceDomain]: email }, () => {
-                console.log(`[AuthMemory] Saved: ${email} -> ${serviceDomain}`);
-            });
+            saveRecord(key, email, serviceDomain);
         }
     });
 }

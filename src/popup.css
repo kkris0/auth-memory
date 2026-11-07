@@ -1,0 +1,239 @@
+:root {
+    --ground: #ffffff;
+    --surface: #f7f8fa;
+    --field: #eef0f3;
+    --ink: #14161b;
+    --ink-soft: #525866;
+    --ink-muted: #8a919e;
+    --accent: #1a73e8;
+    --accent-soft: #eaf2ff;
+    --radius: 10px;
+    --width: 360px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: var(--width);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink);
+    background: var(--ground);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--surface);
+}
+
+.wordmark {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wordmark h1 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.logo {
+    border-radius: 4px;
+    display: block;
+}
+
+.count {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Search */
+.search-wrap {
+    padding: 10px 12px;
+}
+
+.search {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--field);
+    border: none;
+    border-radius: 8px;
+    outline: none;
+}
+
+.search::placeholder {
+    color: var(--ink-muted);
+}
+
+.search:focus {
+    background: var(--ground);
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+/* List area */
+.list {
+    padding: 0 0 12px;
+}
+
+/* Current site (pinned) */
+.pinned-card {
+    margin: 0 12px 10px;
+    padding: 10px 12px 12px;
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+}
+
+.pinned-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.pinned-empty {
+    font-size: 13px;
+    color: var(--ink-soft);
+}
+
+/* Section heading */
+.section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    padding: 2px 14px 6px;
+}
+
+/* Rows */
+.row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 14px;
+}
+
+.pinned-card .row {
+    padding: 0;
+}
+
+.row-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.row-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.row-domain {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.row-time {
+    font-size: 11.5px;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.row-host {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.row-email {
+    font-size: 13px;
+    color: var(--ink);
+    margin-top: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Favicon / monogram */
+.fav {
+    position: relative;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: hsl(var(--hue, 210), 32%, 46%);
+}
+
+.fav-letter {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0;
+}
+
+.fav-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Empty state */
+.empty {
+    text-align: center;
+    padding: 28px 24px 20px;
+}
+
+.empty-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.empty-sub {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+}
+
+/* Scrollbar */
+.list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: var(--field);
+    border-radius: 4px;
+}

@@ -3,7 +3,7 @@
     "name": "AuthMemory: Which Account?",
     "version": "1.0.4",
     "description": "Remembers which Google Account you used for specific services and highlights it.",
-    "permissions": ["storage"],
+    "permissions": ["storage", "activeTab"],
     "host_permissions": ["https://accounts.google.com/*"],
     "content_scripts": [
         {
@@ -13,12 +13,18 @@
             "run_at": "document_end"
         }
     ],
+    "action": {
+        "default_title": "AuthMemory: Which Account?",
+        "default_popup": "src/popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
-    },
-    "background": {
-        "service_worker": "src/content.js"
     }
 }
